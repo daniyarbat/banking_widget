@@ -16,3 +16,19 @@ def get_filtered_data(data):
         if 'state' in x and x['state'] == 'EXECUTED':
             filtered_data.append(x)
     return filtered_data
+
+# форматирование номера карты
+def get_card_number(card_number):
+    if len(card_number) != 16:
+        return "Неверный номер карты"
+    return card_number[:4] + ' ' + card_number[4:6] + '**' + ' ' + '****' + ' ' + card_number[-4:]
+
+
+# Форматирование номера счета
+def get_account_number(account_number):
+    if len(account_number) != 20:
+        return "Неверный номер счета"
+    return '**' + account_number[-4:]
+
+
+
