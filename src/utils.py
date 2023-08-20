@@ -1,10 +1,15 @@
 import json
+import os
 from datetime import datetime
 
+# Получение пути к текущей директории
+current_directory = os.path.dirname(os.path.abspath(__file__))
 
-# Чтение данных из файла operations.json
-def get_data():
-    with open('data/operations.json', 'r', encoding='UTF-8') as file:
+# Составление полного пути к файлу operations.json
+file_path = os.path.join(current_directory, '..', 'data', 'operations.json')
+
+def get_data(file_path):
+    with open(file_path, 'r', encoding='UTF-8') as file:
         data = json.load(file)
     return data
 
@@ -17,18 +22,32 @@ def get_filtered_data(data):
             filtered_data.append(x)
     return filtered_data
 
-# форматирование номера карты
-def get_card_number(card_number):
-    if len(card_number) != 16:
-        return "Неверный номер карты"
-    return card_number[:4] + ' ' + card_number[4:6] + '**' + ' ' + '****' + ' ' + card_number[-4:]
 
+# форматирование номера карты
+def get_card_number(card_info):
+    #return card_number[:4] + ' ' + card_number[4:6] + '**' + ' ' + '****' + ' ' + card_number[-4:]
+    #digits = ''.join(filter(str.isdigit, card_number))
+    # Маскируем номер карты
+    #masked_number = digits[:4] + ' ' + digits[4:6] + '** **** ' + digits[-4:]
+    #return masked_number
+
+    card_name, card_number = card_info.split(' ', 1)
+
+    # Получаем только цифры из номера карты
+    digits = ''.join(filter(str.isdigit, card_number))
+
+    # Маскируем номер карты
+    masked_number = digits[:4] + ' ' + digits[4:6] + '** **** ' + digits[-4:]
+
+    return f"{card_name} {masked_number}"
 
 # Форматирование номера счета
-def get_account_number(account_number):
-    if len(account_number) != 20:
-        return "Неверный номер счета"
-    return '**' + account_number[-4:]
+def get_account_number(account_info):
+    account_name, account_number = account_info.split(' ', 1)
+
+    digits = ''.join(filter(str.isdigit, account_number))
+    masked_num = '**' + digits[-4:]
+    return f"{account_name} {masked_num}"
 
 
 # Получение даты в нужном формате
