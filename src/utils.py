@@ -31,4 +31,16 @@ def get_account_number(account_number):
     return '**' + account_number[-4:]
 
 
+# Получение даты в нужном формате
+def get_format_date(date_str):
+    date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%S.%f')
+    return date.strftime('%d.%m.%Y')
 
+
+# Получение последних 5 операций из списка
+def get_last_operations(data):
+    def get_date(item):
+        return item['date']
+
+    data = sorted(data, key=get_date, reverse=True)
+    return data[:5]
